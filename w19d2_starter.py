@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-W19D2: Q-Learning Starter - Team Feature Branch Activity
+W19D2: Q-Learning Starter - Team 3 Feature Branch Activity
 =========================================================
 
 This is the BASE CODE that teams will fork and improve.
@@ -96,7 +96,7 @@ import matplotlib.pyplot as plt
 # =============================================================================
 
 # Student info - CHANGE THIS!
-STUDENT_NAME = "Your Name"
+STUDENT_NAME = "Team 3 - Jose Diaz, Stephanie Sookram, Raymond Lin, Sam Pomeroy"
 IMPROVEMENT_AREA = "None"  # Options: "Learning Rate", "Exploration", "State Bins", "Reward Shaping"
 
 # Random seed for reproducibility - DO NOT CHANGE for fair comparison!
@@ -237,12 +237,28 @@ class QLearningAgent:
         discrete_state = self.discretize(state)
         q_values = self.q_table[discrete_state]
 
-        # ========== MODIFY HERE: EXPLORATION STRATEGY ==========
-        if training and np.random.random() < self.epsilon:
-            # Explore: random action
-            return np.random.randint(0, 2)
+         # ================= IMPROVED EXPLORATION =================
+        if training:
+        # Epsilon-greedy: explore with probability epsilon
+            if np.random.random() < self.epsilon:
+                action = np.random.randint(0, len(q_values))  # random action
+            else:
+            # Softmax over Q-values (favor higher Qs)
+                temperature = 0.3  # lower = more greedy
+                exp_q = np.exp(q_values / temperature)
+                probs = exp_q / np.sum(exp_q)
+                action = np.random.choice(range(len(q_values)), p=probs)
+
+        # Update epsilon after each step
+            self.epsilon = max(
+                self.epsilon_end,
+                self.epsilon * 0.95  # faster decay
+            )
+
+            return action
+
         else:
-            # Exploit: best action
+        # Evaluation: always pick best action
             return np.argmax(q_values)
 
         # IDEAS:
