@@ -96,15 +96,15 @@ import matplotlib.pyplot as plt
 # =============================================================================
 
 # Student info - CHANGE THIS!
-STUDENT_NAME = "Your Name"
-IMPROVEMENT_AREA = "None"  # Options: "Learning Rate", "Exploration", "State Bins", "Reward Shaping"
+STUDENT_NAME = "Jose Diaz"
+IMPROVEMENT_AREA = "Learning Rate"  # Options: "Learning Rate", "Exploration", "State Bins", "Reward Shaping"
 
 # Random seed for reproducibility - DO NOT CHANGE for fair comparison!
 RANDOM_SEED = 42
 
 # Default hyperparameters
 DEFAULT_CONFIG = {
-    "learning_rate": 0.2,
+    "learning_rate": 0.7,
     "discount_factor": 0.99,
     "epsilon_start": 1.0,
     "epsilon_end": 0.01,
@@ -207,7 +207,7 @@ class QLearningAgent:
         # 1. Time-based decay:
         #    return self.learning_rate * (0.999 ** self.total_updates)
         #
-        # 2. Per-state learning (need to track visit counts):
+        #  2. Per-state learning (need to track visit counts):
         #    if state not in self.visit_counts:
         #        self.visit_counts[state] = 0
         #    self.visit_counts[state] += 1
